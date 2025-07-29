@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { QuestionService } from 'src/app/services/question.service';
 
 @Component({
@@ -10,6 +10,8 @@ import { QuestionService } from 'src/app/services/question.service';
 export class QuestionItemComponent  implements OnInit {
   @Input() title!: string;
   @Input() id?: string;
+  @Output() deleted = new EventEmitter<string>();
+
   constructor(
     private readonly questionService: QuestionService
   ) { }
@@ -19,6 +21,7 @@ export class QuestionItemComponent  implements OnInit {
   async onDelete() {
     try {
       await this.questionService.deleteQuestion(this.id as string);
+      this.deleted.emit(this.id);
     } catch (error) {
       console.log(error);
     }

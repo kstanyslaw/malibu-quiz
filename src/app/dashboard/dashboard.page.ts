@@ -77,8 +77,11 @@ ngOnInit() {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      const newQuestion = await this.questionService.addQuestion(data);
-      console.log(newQuestion);
+      const newQuestionRef = await this.questionService.addQuestion(data);
+      this.questions.push({
+        ...data,
+        id: newQuestionRef.id
+      });
     }
   }
 
@@ -97,5 +100,9 @@ ngOnInit() {
     });
 
     await alert.present();
+  }
+
+  onQuestionDeleted(deletedId: string) {
+    this.questions = this.questions.filter(question => question.id !== deletedId);
   }
 }
