@@ -72,3 +72,8 @@ Thumbs.db
 
 # Environment
 .envrc
+
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json
