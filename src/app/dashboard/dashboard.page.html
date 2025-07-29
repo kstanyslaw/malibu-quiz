@@ -50,7 +50,7 @@
         <ion-icon slot="start" name="person-outline"></ion-icon>
       </ion-item>
       @for (question of questions; track question.id) {
-        <app-question-item />
+        <app-question-item [title]="question.title" [id]="question.id || ''"/>
       }
     }
 

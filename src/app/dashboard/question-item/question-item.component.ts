@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { QuestionService } from 'src/app/services/question.service';
 
 @Component({
   selector: 'app-question-item',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
   standalone: false
 })
 export class QuestionItemComponent  implements OnInit {
-
-  constructor() { }
+  @Input() title!: string;
+  @Input() id?: string;
+  constructor(
+    private readonly questionService: QuestionService
+  ) { }
 
   ngOnInit() {}
 
+  async onDelete() {
+    try {
+      await this.questionService.deleteQuestion(this.id as string);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }

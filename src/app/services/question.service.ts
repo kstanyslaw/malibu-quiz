@@ -20,16 +20,18 @@ export class QuestionService {
   }
 
   getQuestions() {
-    return collectionData(this.collection).pipe(
-      map(data => data as Question[]),
+    return collectionData(this.collection, { idField: 'id' }).pipe(
+      map(data => {
+        return data as Question[];
+      }),
       take(1)
     );
   }
 
   async deleteQuestion(questionId: string) {
     try {
-      const documentRef = doc(this.firestore, 'questions', questionId);
-      await (documentRef);
+      const documentRef = await doc(this.firestore, 'questions', questionId);
+      await deleteDoc(documentRef);
     } catch (error) {
       throw error;
     }
