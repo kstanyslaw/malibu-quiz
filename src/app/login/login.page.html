@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'home'"></ion-back-button>
+    </ion-buttons>
+    <ion-title>🔐Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">🔐Login</ion-title>
+    </ion-toolbar>
+  </ion-header> -->
+
+  <ion-card>
+  <ion-card-header>
+    <ion-card-title>Welcome</ion-card-title>
+    <ion-card-subtitle>Dashboard Access</ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-list>
+    <!-- Login  -->
+    <ion-input type="email" label="Email" [(ngModel)]="email"></ion-input>
+
+    <!-- Password  -->
+    <ion-input type="password" label="Password" [(ngModel)]="password">
+      <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+    </ion-input>
+  </ion-list>
+    <ion-button expand="block" (click)="login()">Login</ion-button>
+  </ion-card-content>
+  </ion-card>
+</ion-content>
