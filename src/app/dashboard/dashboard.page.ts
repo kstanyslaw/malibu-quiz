@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { AddQuestionModalComponent } from './add-question-modal/add-question-modal.component';
 import { ModalController } from '@ionic/angular';
+import { QuestionService } from '../services/question.service';
+import { Observable } from 'rxjs';
+import { DocumentData } from 'firebase/firestore';
+import { Question } from '../interfaces/question';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,14 +16,17 @@ import { ModalController } from '@ionic/angular';
 export class DashboardPage implements OnInit {
 
   isModalOpen = false;
+  questions!: Observable<Question[]>;
   newQuestionType!: 'text' | 'radio' | 'checkbox';
 
   constructor(
     private readonly authService: AuthService,
     private modalCtrl: ModalController,
+    private readonly questionService: QuestionService,
   ) { }
 
   ngOnInit() {
+    this.questions = this.questionService.getQuestions() as Observable<Question[]>;
   }
 
   logout() {
@@ -52,7 +59,8 @@ export class DashboardPage implements OnInit {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      console.log(data);
+      const newQuestion = await this.questionService.addQuestion(data);
+      console.log(newQuestion);
     }
   }
 }

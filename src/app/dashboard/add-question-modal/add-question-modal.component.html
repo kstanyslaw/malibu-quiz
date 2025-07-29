@@ -18,7 +18,7 @@
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-input labelPlacement="floating" label="Введите вопрос" [(ngModel)]="question"></ion-input>
+      <ion-input labelPlacement="floating" label="Введите вопрос" [(ngModel)]="questionTitle" required="true"></ion-input>
     </ion-item>
 
     @if (questionType !== 'text') {
@@ -29,7 +29,7 @@
 
         @for (option of options; let i = $index; track i) {
           <ion-item>
-            <ion-input labelPlacement="floating" [label]="`Вариант ответа ${i + 1}`" [(ngModel)]="options[i]"></ion-input>
+            <ion-input labelPlacement="floating" [label]="`Вариант ответа ${i + 1}`" [(ngModel)]="options[i]" [required]="i < 2"></ion-input>
           </ion-item>
         }
 
@@ -43,3 +43,7 @@
     }
   </ion-list>
 </ion-content>
+
+<ion-footer (click)="confirm()">
+  <ion-button expand="full" color="success">Создать вопрос</ion-button>
+</ion-footer>

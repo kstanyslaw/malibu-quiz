@@ -18,7 +18,7 @@ export class QuestionService {
     return newDocument;
   }
 
-  async getQuestions() {
+  getQuestions() {
     return collectionData(this.collection);
   }
 
