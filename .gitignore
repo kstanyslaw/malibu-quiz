@@ -31,6 +31,7 @@ log.txt
 
 # Node
 /node_modules
+/.npm-global
 npm-debug.log
 yarn-error.log
 
@@ -68,3 +69,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Environment
+.envrc
