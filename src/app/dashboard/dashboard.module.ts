@@ -8,6 +8,7 @@ import { DashboardPageRoutingModule } from './dashboard-routing.module';
 
 import { DashboardPage } from './dashboard.page';
 import { QuestionItemComponent } from './question-item/question-item.component';
+import { AddQuestionModalComponent } from './add-question-modal/add-question-modal.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { QuestionItemComponent } from './question-item/question-item.component';
   ],
   declarations: [
     DashboardPage,
-    QuestionItemComponent
+    QuestionItemComponent,
+    AddQuestionModalComponent
   ]
 })
 export class DashboardPageModule {}

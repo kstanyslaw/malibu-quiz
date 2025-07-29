@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,15 +22,19 @@ import { getDatabase, provideDatabase } from '@angular/fire/database';
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy
     },
-    provideFirebaseApp(() => initializeApp({ projectId: "malibu-quiz",
-    appId: "1:907083750415:web:2a6153ca3a6f9293c2977a",
-    storageBucket: "malibu-quiz.firebasestorage.app",
-    apiKey: "AIzaSyDDovdZzVlQqH-I3_7hmwgO3T5sy-sKL-U",
-    authDomain: "malibu-quiz.firebaseapp.com",
-    messagingSenderId: "907083750415",
-    measurementId: "G-074TP22X2M" })),
+    provideFirebaseApp(() => initializeApp({
+      projectId: "malibu-quiz",
+      appId: "1:907083750415:web:2a6153ca3a6f9293c2977a",
+      storageBucket: "malibu-quiz.firebasestorage.app",
+      apiKey: "AIzaSyDDovdZzVlQqH-I3_7hmwgO3T5sy-sKL-U",
+      authDomain: "malibu-quiz.firebaseapp.com",
+      messagingSenderId: "907083750415",
+      measurementId: "G-074TP22X2M"
+    })),
     provideAuth(() => getAuth()),
-    provideDatabase(() => getDatabase())],
+    provideDatabase(() => getDatabase()),
+    provideFirestore(() => getFirestore()),
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { AddQuestionModalComponent } from './add-question-modal/add-question-modal.component';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,8 +11,12 @@ import { AuthService } from '../services/auth.service';
 })
 export class DashboardPage implements OnInit {
 
+  isModalOpen = false;
+  newQuestionType!: 'text' | 'radio' | 'checkbox';
+
   constructor(
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private modalCtrl: ModalController,
   ) { }
 
   ngOnInit() {
@@ -29,5 +35,24 @@ export class DashboardPage implements OnInit {
     // where the gesture ended. This method can also be called directly
     // by the reorder group
     event.detail.complete();
+  }
+
+  async openModal(newQuestionType: 'text' | 'radio' | 'checkbox') {
+    this.newQuestionType = newQuestionType;
+    this.isModalOpen = true;
+
+    const modal = await this.modalCtrl.create({
+      component: AddQuestionModalComponent,
+      componentProps: {
+        questionType: newQuestionType
+      }
+    });
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      console.log(data);
+    }
   }
 }
