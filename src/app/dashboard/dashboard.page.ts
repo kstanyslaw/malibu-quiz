@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { AddQuestionModalComponent } from './add-question-modal/add-question-modal.component';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { QuestionService } from '../services/question.service';
-import { Observable } from 'rxjs';
-import { DocumentData } from 'firebase/firestore';
+import { finalize, Subscription } from 'rxjs';
 import { Question } from '../interfaces/question';
 
 @Component({
@@ -16,18 +15,37 @@ import { Question } from '../interfaces/question';
 export class DashboardPage implements OnInit {
 
   isModalOpen = false;
-  questions!: Observable<Question[]>;
+  isLoading = false;
+  questionSubscription!: Subscription;
+  questions!: Question[];
   newQuestionType!: 'text' | 'radio' | 'checkbox';
 
   constructor(
     private readonly authService: AuthService,
     private modalCtrl: ModalController,
     private readonly questionService: QuestionService,
+    private readonly alertController: AlertController,
   ) { }
 
-  ngOnInit() {
-    this.questions = this.questionService.getQuestions() as Observable<Question[]>;
-  }
+ngOnInit() {
+  this.isLoading = true;
+  this.questionSubscription = this.questionService
+    .getQuestions()
+    .pipe(
+      finalize(() => {
+        this.isLoading = false;
+      })
+    )
+    .subscribe({
+      next: (questions: Question[]) => {
+        this.questions = questions;
+      },
+      error: (err) => {
+        this.presentAlert(err.header, err.message);
+        this.isLoading = false;
+      },
+    });
+}
 
   logout() {
     this.authService.signOut();
@@ -62,5 +80,22 @@ export class DashboardPage implements OnInit {
       const newQuestion = await this.questionService.addQuestion(data);
       console.log(newQuestion);
     }
+  }
+
+  ngOnDestroy() {
+    if (this.questionSubscription) {
+      this.questionSubscription.unsubscribe();
+    }
+  }
+
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header: header ?? 'Ошибка',
+      // subHeader: 'A Sub Header Is Optional',
+      message: message,
+      buttons: ['Закрыть'],
+    });
+
+    await alert.present();
   }
 }

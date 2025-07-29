@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Question } from '../interfaces/question';
 import { addDoc, collection, collectionData, CollectionReference, Firestore, deleteDoc, doc } from "@angular/fire/firestore";
+import { map, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,10 @@ export class QuestionService {
   }
 
   getQuestions() {
-    return collectionData(this.collection);
+    return collectionData(this.collection).pipe(
+      map(data => data as Question[]),
+      take(1)
+    );
   }
 
   async deleteQuestion(questionId: string) {
