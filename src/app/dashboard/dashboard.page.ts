@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
 import { AddQuestionModalComponent } from './add-question-modal/add-question-modal.component';
 import { AlertController, LoadingController, ModalController } from '@ionic/angular';
-import { QuestionService } from '../services/question.service';
+import { QuestionService, AuthService } from '@common/services';
 import { finalize, Subscription } from 'rxjs';
-import { Question } from '../interfaces/question';
+import { Question } from '../common/interfaces/question';
 
 @Component({
   selector: 'app-dashboard',
