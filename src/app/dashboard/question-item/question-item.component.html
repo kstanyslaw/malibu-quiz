@@ -6,6 +6,13 @@
   <ion-item>
     <ion-label>{{title}}</ion-label>
     <ion-reorder slot="start"></ion-reorder>
+    @if (type === 'text') {
+      <ion-icon slot="end" name="pencil"></ion-icon>
+    } @else if (type === 'checkbox') {
+      <ion-icon slot="end" name="checkmark-done-circle-outline"></ion-icon>
+    } @else {
+      <ion-icon slot="end" name="radio-button-on-outline"></ion-icon>
+    }
   </ion-item>
 
   <ion-item-options side="end">

@@ -10,6 +10,7 @@ import { QuestionService } from 'src/app/services/question.service';
 export class QuestionItemComponent  implements OnInit {
   @Input() title!: string;
   @Input() id?: string;
+  @Input() type!: 'text' | 'checkbox' | 'radio';
   @Output() deleted = new EventEmitter<string>();
 
   constructor(

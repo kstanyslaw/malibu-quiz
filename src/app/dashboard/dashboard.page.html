@@ -53,6 +53,7 @@
         <app-question-item
           [title]="question.title"
           [id]="question.id || ''"
+          [type]="question.type"
           (deleted)="onQuestionDeleted($event)"
         />
       }
