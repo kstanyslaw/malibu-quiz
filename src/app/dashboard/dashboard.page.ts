@@ -79,7 +79,7 @@ ngOnInit() {
         mode: mode,
         questionTitle: question?.title,
         questionId: question?.id,
-        options: question?.options
+        options: question?.options ?? ['', '']
       }
     });
     modal.present();

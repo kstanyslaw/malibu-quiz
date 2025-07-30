@@ -49,5 +49,11 @@
 </ion-content>
 
 <ion-footer (click)="confirm()">
-  <ion-button expand="full" color="success">Создать вопрос</ion-button>
+  <ion-button expand="full" color="success">
+    @if (mode === 'add') {
+      Создать вопрос
+    } @else {
+      Обновить вопрос
+    }
+  </ion-button>
 </ion-footer>
