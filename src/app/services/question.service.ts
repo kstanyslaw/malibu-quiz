@@ -51,16 +51,6 @@ export class QuestionService {
     try {
       const documentRef = await doc(this.firestore, 'questions', questionId);
       await updateDoc(documentRef, {...question});
-      return await this.getQuestionById(questionId);
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async getQuestionById(questionId: string): Promise<Question> {
-    try {
-      const documentRef = await doc(this.firestore, 'questions', questionId);
-      return await getDoc(documentRef) as unknown as Question;
     } catch (error) {
       throw error;
     }

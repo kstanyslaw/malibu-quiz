@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { IonItemSliding } from '@ionic/angular';
 import { Question } from 'src/app/interfaces/question';
 
 @Component({
@@ -19,12 +20,14 @@ export class QuestionItemComponent  implements OnInit {
 
   ngOnInit() {}
 
-  onDelete() {
+  onDelete(slidingItem: IonItemSliding) {
     this.deleted.emit(this.id);
+    slidingItem.close();
   }
 
-  onEdit() {
+  onEdit(slidingItem: IonItemSliding) {
     this.question.id = this.id;
     this.editing.emit(this.question);
+    slidingItem.close();
   }
 }

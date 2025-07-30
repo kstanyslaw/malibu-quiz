@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { AddQuestionModalComponent } from './add-question-modal/add-question-modal.component';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 import { QuestionService } from '../services/question.service';
 import { finalize, Subscription } from 'rxjs';
 import { Question } from '../interfaces/question';
@@ -26,6 +26,7 @@ export class DashboardPage implements OnInit {
     private modalCtrl: ModalController,
     private readonly questionService: QuestionService,
     private readonly alertController: AlertController,
+    private readonly loadingCtrl: LoadingController,
   ) { }
 
 ngOnInit() {
@@ -77,31 +78,34 @@ ngOnInit() {
         questionType: newQuestionType,
         mode: mode,
         questionTitle: question?.title,
-        questionId: question?.id
+        questionId: question?.id,
+        options: question?.options
       }
     });
     modal.present();
-    this.updating = true;
 
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'add') {
+      const loading = await this.showLoading();
       const newQuestionRef = await this.questionService.addQuestion(data);
       this.questions.push({
         ...data,
         id: newQuestionRef.id
       });
+      this.hideLoading(loading);
     } else if (role === 'edit') {
-      const updatedQuestion = await this.questionService.updateQuestion(data, data.id);
-      const id = updatedQuestion.id;
+      const loading = await this.showLoading();
+      await this.questionService.updateQuestion(data, data.id);
+      const id = data.id;
       this.questions = this.questions.map((question: Question) => {
         if (question.id === id) {
-          return updatedQuestion;
+          return data;
         }
         return question;
       });
+      this.hideLoading(loading);
     }
-    this.updating = false;
   }
 
   ngOnDestroy() {
@@ -122,7 +126,7 @@ ngOnInit() {
   }
 
   async onQuestionDeleted(deletedId: string) {
-    this.updating = true;
+    const loading = await this.showLoading();
     try {
       await this.questionService.deleteQuestion(deletedId as string);
       this.questions = this.questions.filter(question => question.id !== deletedId);
@@ -133,10 +137,24 @@ ngOnInit() {
         this.presentAlert('Ошибка', 'Произошла неизвестная ошибка');
       }
     }
-    this.updating = false;
+    this.hideLoading(loading);
   }
 
   async onQuestionUpdated(question: Question) {
     await this.openModal(question.type, 'edit', question);
+  }
+
+  async showLoading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Обновляю список...',
+      spinner: 'circular',
+    });
+
+    loading.present();
+    return loading;
+  }
+
+  hideLoading(loading: HTMLIonLoadingElement) {
+    loading.remove();
   }
 }
