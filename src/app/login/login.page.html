@@ -22,10 +22,13 @@
   <ion-card-content>
     <ion-list>
     <!-- Login  -->
-    <ion-input type="email" label="Email" [(ngModel)]="email"></ion-input>
+    <ion-input type="email" label="Email" [(ngModel)]="email" placeholder="example@mail.com">
+      <ion-icon slot="start" name="mail" aria-hidden="true"></ion-icon>
+    </ion-input>
 
     <!-- Password  -->
-    <ion-input type="password" label="Password" [(ngModel)]="password">
+    <ion-input type="password" label="Password" [(ngModel)]="password" placeholder="*******">
+      <ion-icon slot="start" name="lock-closed" aria-hidden="true"></ion-icon>
       <ion-input-password-toggle slot="end"></ion-input-password-toggle>
     </ion-input>
   </ion-list>
