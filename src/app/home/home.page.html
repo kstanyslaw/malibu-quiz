@@ -11,9 +11,62 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <div id="container">
-    <strong>Здесь пока что нет ни одного вопроса</strong>
-    <p>Наша команда их скоро добавит, а вы можете посмотреть <a target="_blank" rel="noopener noreferrer" href="https://uzmalibu.com/">сайт Malibu Travel</a></p>
-  </div>
+<ion-content [fullscreen]="true" class="ion-padding">
+  @if (isQuestionsListLoading) {
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-skeleton-text [animated]="true"/>
+        </ion-card-title>
+        <ion-card-subtitle>
+          <ion-skeleton-text [animated]="true"/>
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-skeleton-text [animated]="true" style="width: 80px"/>
+      </ion-card-content>
+    </ion-card>
+  } @else if (isQuestionsListEmpty) {
+    <div id="container">
+      <strong>Здесь пока что нет ни одного вопроса</strong>
+      <p>Наша команда их скоро добавит, а вы можете посмотреть <a target="_blank" rel="noopener noreferrer" href="https://uzmalibu.com/">сайт Malibu Travel</a></p>
+    </div>
+  } @else {
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Ваш любимый кофе, который вы бы хотели пить в нашем офисе?😊</ion-card-title>
+        <ion-list>
+          <ion-item>
+            <ion-checkbox labelPlacement="end">Американо</ion-checkbox>
+          </ion-item>
+
+          <ion-item>
+            <ion-checkbox labelPlacement="end">Эспрессо</ion-checkbox>
+          </ion-item>
+
+          <ion-item>
+            <ion-checkbox labelPlacement="end">Латте</ion-checkbox>
+          </ion-item>
+
+          <ion-item>
+            <ion-checkbox labelPlacement="end">Капучино</ion-checkbox>
+          </ion-item>
+        </ion-list>
+      </ion-card-header>
+
+    </ion-card>
+
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button>
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+    <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+      <ion-fab-button>
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  }
 </ion-content>
