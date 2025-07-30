@@ -41,9 +41,11 @@
       <p>Наша команда их скоро добавит, а вы можете посмотреть <a target="_blank" rel="noopener noreferrer" href="https://uzmalibu.com/">сайт Malibu Travel</a></p>
     </div>
   } @else {
-    <app-question-card [question]="questions[0]"/>
+    <!-- <app-question-card [question]="questions[0]"/> -->
+     <app-first-question-card />
 
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-label>Следующий</ion-label>
       <ion-fab-button>
         <ion-icon name="arrow-forward-outline"></ion-icon>
       </ion-fab-button>
@@ -53,6 +55,7 @@
       <ion-fab-button>
         <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-fab-button>
+      <ion-label>Предыдущий</ion-label>
     </ion-fab>
   }
 </ion-content>

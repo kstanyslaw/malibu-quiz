@@ -6,6 +6,7 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { QuestionCardComponent } from './question-card/question-card.component';
+import { FirstQuestionCardComponent } from './first-question-card/first-question-card.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { QuestionCardComponent } from './question-card/question-card.component';
   declarations: [
     HomePage,
     QuestionCardComponent,
+    FirstQuestionCardComponent
   ]
 })
 export class HomePageModule {}
