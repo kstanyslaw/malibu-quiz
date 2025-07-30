@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    @if (mode === 'add') {
+      <ion-title >Новый вопрос</ion-title>
+    } @else {
+      <ion-title >Редактировать вопрос</ion-title>
+    }
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item>
+      <ion-select label="Тип вопроса" interface="action-sheet" [value]="questionType" (ionChange)="onQuestionTypeChange($event)">
+        <ion-select-option value="radio">Единичный выбор</ion-select-option>
+        <ion-select-option value="checkbox">Множественный выбор</ion-select-option>
+        <ion-select-option value="text">Свободный ответ</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-input labelPlacement="floating" label="Введите вопрос" [(ngModel)]="questionTitle" required="true"></ion-input>
+    </ion-item>
+
+    @if (questionType !== 'text') {
+      <ion-item-group>
+        <ion-item-divider>
+          <ion-label>Варианты ответа:</ion-label>
+        </ion-item-divider>
+
+        @for (option of options; let i = $index; track i) {
+          <ion-item>
+            <ion-input labelPlacement="floating" [label]="`Вариант ответа ${i + 1}`" [(ngModel)]="options[i]" [required]="i < 2"></ion-input>
+          </ion-item>
+        }
+
+
+        <ion-button fill="outline" expand="block" class="ion-margin-horizontal" (click)="addOption()">
+          <ion-icon name="add-circle-outline"></ion-icon>
+          Добавить вариант
+        </ion-button>
+
+      </ion-item-group>
+    }
+  </ion-list>
+</ion-content>
+
+<ion-footer (click)="confirm()">
+  <ion-button expand="full" color="success">Создать вопрос</ion-button>
+</ion-footer>
