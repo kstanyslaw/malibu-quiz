@@ -35,6 +35,43 @@ export class HomePage implements OnInit {
     //       this.isQuestionsListLoading = false;
     //     },
     //   });
+
+    // Mock questions TO DELETE
+    this.questions = [
+      {
+        type: 'checkbox',
+        title: 'Ваш любимый кофе, который вы бы хотели пить в нашем офисе?😊',
+        id: 'xxxxxxxxx',
+        order: 1,
+        options: [
+          'Американо',
+          'Эспрессо',
+          'Латте',
+          'Капучино'
+        ],
+        createdAt: new Date(),
+      },
+      {
+        type: 'text',
+        title: 'Free answer question?😊',
+        id: 'yyyyyyyyyy',
+        order: 2,
+        createdAt: new Date(),
+      },
+      {
+        type: 'radio',
+        title: 'Ваш любимый кофе, который вы бы хотели пить в нашем офисе?😊',
+        id: 'zzzzzzzzzzz',
+        order: 1,
+        options: [
+          'Американо',
+          'Эспрессо',
+          'Латте',
+          'Капучино'
+        ],
+        createdAt: new Date(),
+      },
+    ]
   }
 
   get isQuestionsListEmpty(): boolean {

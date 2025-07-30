@@ -16,15 +16,23 @@
     <ion-card>
       <ion-card-header>
         <ion-card-title>
-          <ion-skeleton-text [animated]="true"/>
+          <ion-skeleton-text [animated]="true" style="height: 2rem;"/>
+          <ion-skeleton-text [animated]="true" style="height: 2rem; width: 30%;"/>
         </ion-card-title>
-        <ion-card-subtitle>
-          <ion-skeleton-text [animated]="true"/>
-        </ion-card-subtitle>
       </ion-card-header>
 
       <ion-card-content>
-        <ion-skeleton-text [animated]="true" style="width: 80px"/>
+        <ion-list>
+          <ion-item>
+            <ion-skeleton-text [animated]="true" style="width: 80%"/>
+          </ion-item>
+          <ion-item>
+            <ion-skeleton-text [animated]="true" style="width: 60%"/>
+          </ion-item>
+          <ion-item>
+            <ion-skeleton-text [animated]="true" style="width: 70%"/>
+          </ion-item>
+        </ion-list>
       </ion-card-content>
     </ion-card>
   } @else if (isQuestionsListEmpty) {
@@ -33,29 +41,7 @@
       <p>Наша команда их скоро добавит, а вы можете посмотреть <a target="_blank" rel="noopener noreferrer" href="https://uzmalibu.com/">сайт Malibu Travel</a></p>
     </div>
   } @else {
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Ваш любимый кофе, который вы бы хотели пить в нашем офисе?😊</ion-card-title>
-        <ion-list>
-          <ion-item>
-            <ion-checkbox labelPlacement="end">Американо</ion-checkbox>
-          </ion-item>
-
-          <ion-item>
-            <ion-checkbox labelPlacement="end">Эспрессо</ion-checkbox>
-          </ion-item>
-
-          <ion-item>
-            <ion-checkbox labelPlacement="end">Латте</ion-checkbox>
-          </ion-item>
-
-          <ion-item>
-            <ion-checkbox labelPlacement="end">Капучино</ion-checkbox>
-          </ion-item>
-        </ion-list>
-      </ion-card-header>
-
-    </ion-card>
+    <app-question-card [question]="questions[0]"/>
 
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
       <ion-fab-button>
