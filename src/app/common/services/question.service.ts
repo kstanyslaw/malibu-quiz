@@ -8,7 +8,6 @@ import {
   Firestore,
   deleteDoc,
   updateDoc,
-  getDoc,
   doc
 } from "@angular/fire/firestore";
 import { map, take } from 'rxjs';

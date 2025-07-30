@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { IonModal, ModalController } from '@ionic/angular';
-import { Question } from 'src/app/interfaces/question';
+import { Question } from 'src/app/common/interfaces/question';
 
 @Component({
   selector: 'app-add-question-modal',

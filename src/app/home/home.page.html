@@ -11,9 +11,60 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <div id="container">
-    <strong>Здесь пока что нет ни одного вопроса</strong>
-    <p>Наша команда их скоро добавит, а вы можете посмотреть <a target="_blank" rel="noopener noreferrer" href="https://uzmalibu.com/">сайт Malibu Travel</a></p>
-  </div>
+<ion-content [fullscreen]="true" class="ion-padding">
+  @if (isQuestionsListLoading) {
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-skeleton-text [animated]="true" style="height: 2rem;"/>
+          <ion-skeleton-text [animated]="true" style="height: 2rem; width: 30%;"/>
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-skeleton-text [animated]="true" style="width: 80%"/>
+          </ion-item>
+          <ion-item>
+            <ion-skeleton-text [animated]="true" style="width: 60%"/>
+          </ion-item>
+          <ion-item>
+            <ion-skeleton-text [animated]="true" style="width: 70%"/>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  } @else if (isQuestionsListEmpty) {
+    <div id="container">
+      <strong>Здесь пока что нет ни одного вопроса</strong>
+      <p>Наша команда их скоро добавит, а вы можете посмотреть <a target="_blank" rel="noopener noreferrer" href="https://uzmalibu.com/">сайт Malibu Travel</a></p>
+    </div>
+  } @else {
+    @if (currentQuestionIndex === -1) {
+      <app-first-question-card />
+    } @else {
+      <app-question-card [question]="currentQuestion"/>
+    }
+
+    <ion-fab
+      slot="fixed"
+      vertical="bottom"
+      horizontal="end"
+      (click)="nextQuestion()"
+      [style]="currentQuestionIndex < questions.length-1 ? 'display: flex;' : 'display: none;'"
+    >
+      <ion-label>Следующий</ion-label>
+      <ion-fab-button>
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+    <ion-fab slot="fixed" vertical="bottom" horizontal="start" (click)="prevQuestion()" [style]="currentQuestionIndex > -1 ? 'display: flex;' : 'display: none;'">
+      <ion-fab-button>
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-label>Предыдущий</ion-label>
+    </ion-fab>
+  }
 </ion-content>
