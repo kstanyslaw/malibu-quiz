@@ -19,6 +19,7 @@ export class DashboardPage implements OnInit {
   questionSubscription!: Subscription;
   questions!: Question[];
   newQuestionType!: 'text' | 'radio' | 'checkbox';
+  updating: boolean = false;
 
   constructor(
     private readonly authService: AuthService,
@@ -62,27 +63,45 @@ ngOnInit() {
     event.detail.complete();
   }
 
-  async openModal(newQuestionType: 'text' | 'radio' | 'checkbox') {
+  async openModal(
+    newQuestionType: 'text' | 'radio' | 'checkbox',
+    mode: 'add' | 'edit',
+    question?: Question
+  ) {
     this.newQuestionType = newQuestionType;
     this.isModalOpen = true;
 
     const modal = await this.modalCtrl.create({
       component: AddQuestionModalComponent,
       componentProps: {
-        questionType: newQuestionType
+        questionType: newQuestionType,
+        mode: mode,
+        questionTitle: question?.title,
+        questionId: question?.id
       }
     });
     modal.present();
+    this.updating = true;
 
     const { data, role } = await modal.onWillDismiss();
 
-    if (role === 'confirm') {
+    if (role === 'add') {
       const newQuestionRef = await this.questionService.addQuestion(data);
       this.questions.push({
         ...data,
         id: newQuestionRef.id
       });
+    } else if (role === 'edit') {
+      const updatedQuestion = await this.questionService.updateQuestion(data, data.id);
+      const id = updatedQuestion.id;
+      this.questions = this.questions.map((question: Question) => {
+        if (question.id === id) {
+          return updatedQuestion;
+        }
+        return question;
+      });
     }
+    this.updating = false;
   }
 
   ngOnDestroy() {
@@ -102,7 +121,22 @@ ngOnInit() {
     await alert.present();
   }
 
-  onQuestionDeleted(deletedId: string) {
-    this.questions = this.questions.filter(question => question.id !== deletedId);
+  async onQuestionDeleted(deletedId: string) {
+    this.updating = true;
+    try {
+      await this.questionService.deleteQuestion(deletedId as string);
+      this.questions = this.questions.filter(question => question.id !== deletedId);
+    } catch (error) {
+      if (typeof error === 'object' && error !== null && 'header' in error && 'message' in error) {
+        this.presentAlert((error as any)['header'], (error as any)['message']);
+      } else {
+        this.presentAlert('Ошибка', 'Произошла неизвестная ошибка');
+      }
+    }
+    this.updating = false;
+  }
+
+  async onQuestionUpdated(question: Question) {
+    await this.openModal(question.type, 'edit', question);
   }
 }

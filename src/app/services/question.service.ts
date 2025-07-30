@@ -1,6 +1,16 @@
 import { inject, Injectable } from '@angular/core';
 import { Question } from '../interfaces/question';
-import { addDoc, collection, collectionData, CollectionReference, Firestore, deleteDoc, doc } from "@angular/fire/firestore";
+import {
+  addDoc,
+  collection,
+  collectionData,
+  CollectionReference,
+  Firestore,
+  deleteDoc,
+  updateDoc,
+  getDoc,
+  doc
+} from "@angular/fire/firestore";
 import { map, take } from 'rxjs';
 
 @Injectable({
@@ -32,6 +42,25 @@ export class QuestionService {
     try {
       const documentRef = await doc(this.firestore, 'questions', questionId);
       await deleteDoc(documentRef);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateQuestion(question: Question, questionId: string) {
+    try {
+      const documentRef = await doc(this.firestore, 'questions', questionId);
+      await updateDoc(documentRef, {...question});
+      return await this.getQuestionById(questionId);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getQuestionById(questionId: string): Promise<Question> {
+    try {
+      const documentRef = await doc(this.firestore, 'questions', questionId);
+      return await getDoc(documentRef) as unknown as Question;
     } catch (error) {
       throw error;
     }

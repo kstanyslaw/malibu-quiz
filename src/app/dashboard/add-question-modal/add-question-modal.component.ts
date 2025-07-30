@@ -11,8 +11,10 @@ import { Question } from 'src/app/interfaces/question';
 export class AddQuestionModalComponent {
 
   @Input() questionType!: 'text' | 'radio' | 'checkbox';
-  questionTitle!: string;
-  options: string[] = ['', ''];
+  @Input() mode!: 'add' | 'edit';
+  @Input() questionTitle?: string;
+  @Input() questionId?: string;
+  @Input() options: string[] = ['', ''];
 
   constructor(private modalCtrl: ModalController) {}
 
@@ -27,11 +29,17 @@ export class AddQuestionModalComponent {
     }
     const newQuestion: Question = {
       type: this.questionType,
-      title: this.questionTitle,
+      title: this.questionTitle as string,
       createdAt: new Date(),
       order: -1
     }
-    return this.modalCtrl.dismiss(newQuestion, 'confirm');
+    if(this.questionType !== 'text') {
+      newQuestion.options = this.options;
+    }
+    if(!!this.questionId) {
+      newQuestion.id = this.questionId
+    }
+    return this.modalCtrl.dismiss(newQuestion, this.mode);
   }
 
   onQuestionTypeChange(event: Event) {

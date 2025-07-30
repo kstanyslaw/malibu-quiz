@@ -5,7 +5,11 @@
         <ion-icon slot="icon-only" name="close-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title >Новый вопрос</ion-title>
+    @if (mode === 'add') {
+      <ion-title >Новый вопрос</ion-title>
+    } @else {
+      <ion-title >Редактировать вопрос</ion-title>
+    }
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">

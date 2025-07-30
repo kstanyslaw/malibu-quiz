@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { QuestionService } from 'src/app/services/question.service';
+import { Question } from 'src/app/interfaces/question';
 
 @Component({
   selector: 'app-question-item',
@@ -9,22 +9,22 @@ import { QuestionService } from 'src/app/services/question.service';
 })
 export class QuestionItemComponent  implements OnInit {
   @Input() title!: string;
-  @Input() id?: string;
+  @Input() id!: string;
   @Input() type!: 'text' | 'checkbox' | 'radio';
+  @Input() question!: Question;
   @Output() deleted = new EventEmitter<string>();
+  @Output() editing = new EventEmitter<Question>();
 
-  constructor(
-    private readonly questionService: QuestionService
-  ) { }
+  constructor() { }
 
   ngOnInit() {}
 
-  async onDelete() {
-    try {
-      await this.questionService.deleteQuestion(this.id as string);
-      this.deleted.emit(this.id);
-    } catch (error) {
-      console.log(error);
-    }
+  onDelete() {
+    this.deleted.emit(this.id);
+  }
+
+  onEdit() {
+    this.question.id = this.id;
+    this.editing.emit(this.question);
   }
 }
