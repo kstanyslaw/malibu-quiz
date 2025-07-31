@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Question } from '@common/interfaces';
 
 @Component({
@@ -10,8 +10,16 @@ import { Question } from '@common/interfaces';
 export class QuestionCardComponent {
 
   @Input() question!: Question;
-  @Input() answer!: string;
-  @Output() answerChange = new EventEmitter<string>();
+  @Output() answerChange = new EventEmitter<string | string[]>();
+  @Input() set initialAnswer(value: string | string []) {
+    if (this.question.type === 'checkbox') {
+      this.selectedOptions = Array.isArray(value) ? [...value] : [];
+    } else {
+      this.answer = value.toString() || '';
+    }
+  }
+
+  answer: string = '';
 
   selectedOptions: string[] = [];
 
@@ -23,10 +31,16 @@ export class QuestionCardComponent {
 
   onCheckboxChange(option: string, isChecked: boolean) {
     if (isChecked) {
-      this.selectedOptions.push(option);
+      if (!this.selectedOptions.includes(option)) {
+        this.selectedOptions.push(option);
+      }
     } else {
       this.selectedOptions = this.selectedOptions.filter(item => item !== option);
     }
-    this.answerChange.emit(this.selectedOptions.toString());
+    this.answerChange.emit(this.selectedOptions);
+  }
+
+  isOptionChecked(option: string): boolean {
+    return this.selectedOptions.includes(option);
   }
 }

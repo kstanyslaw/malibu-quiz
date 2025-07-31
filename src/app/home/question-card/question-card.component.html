@@ -9,7 +9,7 @@
           <ion-item>
             <ion-checkbox
               labelPlacement="start"
-              [checked]="selectedOptions.includes(option)"
+              [checked]="isOptionChecked(option)"
               (ionChange)="onCheckboxChange(option, $event.detail.checked)"
             >{{ option }}</ion-checkbox>
           </ion-item>

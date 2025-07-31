@@ -13,7 +13,7 @@ export class HomePage implements OnInit {
   isQuestionsListLoading: boolean = false;
   questions!: Question[];
   currentQuestionIndex: number = -1;
-  answers: string[] = [];
+  answers: string[] | string[][] = [];
 
   constructor(
     private readonly questionService: QuestionService,
@@ -41,6 +41,13 @@ export class HomePage implements OnInit {
     // Mock questions TO DELETE
     this.questions = [
       {
+        type: 'text',
+        title: 'Free answer question?😊',
+        id: 'yyyyyyyyyy',
+        order: 2,
+        createdAt: new Date(),
+      },
+            {
         type: 'checkbox',
         title: 'Ваш любимый кофе, который вы бы хотели пить в нашем офисе?😊',
         id: 'xxxxxxxxx',
@@ -51,13 +58,6 @@ export class HomePage implements OnInit {
           'Латте',
           'Капучино'
         ],
-        createdAt: new Date(),
-      },
-      {
-        type: 'text',
-        title: 'Free answer question?😊',
-        id: 'yyyyyyyyyy',
-        order: 2,
         createdAt: new Date(),
       },
       {
@@ -100,7 +100,7 @@ export class HomePage implements OnInit {
     return this.answers[this.currentQuestionIndex] ?? '';
   }
 
-  updateAnswer(value: string) {
+  updateAnswer(value: string | string[]) {
     this.answers[this.currentQuestionIndex] = value;
   }
 }
