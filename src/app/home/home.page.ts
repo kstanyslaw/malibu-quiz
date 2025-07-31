@@ -81,7 +81,7 @@ export class HomePage implements OnInit {
   }
 
   nextQuestion() {
-    if( this.currentQuestionIndex < this.questions.length) {
+    if( this.currentQuestionIndex < this.questions.length + 1) {
       this.currentQuestionIndex++;
     }
   }
