@@ -1,84 +1,12 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Dashboard
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="logout()">
-        <ion-icon slot="icon-only" name="exit-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-list>
-  <!-- The reorder gesture is disabled by default, enable it to drag and drop items -->
-  <!-- Casting $event to $any is a temporary fix for this bug https://github.com/ionic-team/ionic-framework/issues/24245 -->
-  <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
-
-    @if (isLoading) {
-      <ion-list>
-        <ion-item>
-          <ion-label>
-            <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
-          </ion-label>
-          <ion-icon slot="start" name="reorder-two"></ion-icon>
-        </ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-item>
-          <ion-label>
-            <ion-skeleton-text [animated]="true" style="width: 70%;"></ion-skeleton-text>
-          </ion-label>
-          <ion-icon slot="start" name="reorder-two"></ion-icon>
-        </ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-item>
-          <ion-label>
-            <ion-skeleton-text [animated]="true" style="width: 90%;"></ion-skeleton-text>
-          </ion-label>
-          <ion-icon slot="start" name="reorder-two"></ion-icon>
-        </ion-item>
-      </ion-list>
-    } @else if(questions.length === 0 ) {
-      <p slot="middle">Вопросы пока что не добавлены</p>
-    } @else {
-      <ion-item>
-        <ion-label> Персональные данные </ion-label>
-        <ion-icon slot="start" name="person-outline"></ion-icon>
-      </ion-item>
-      @for (question of questions; track question.id) {
-        <app-question-item
-          [title]="question.title"
-          [id]="question.id || ''"
-          [type]="question.type"
-          [question]="question"
-          (deleted)="onQuestionDeleted($event)"
-          (editing)="onQuestionUpdated($event)"
-        />
-      }
-    }
-
-  </ion-reorder-group>
-  </ion-list>
-
-
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button>
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-list side="top">
-      <ion-fab-button aria-label="Свободный ответ" (click)="openModal('text', 'add')">
-        <ion-icon name="pencil"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-button (click)="openModal('checkbox', 'add')">
-        <ion-icon name="checkmark-done-circle-outline"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-button (click)="openModal('radio', 'add')">
-        <ion-icon name="radio-button-on-outline"></ion-icon>
-      </ion-fab-button>
-    </ion-fab-list>
-  </ion-fab>
-</ion-content>
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="questions">
+      <ion-icon name="help-circle-outline"></ion-icon>
+      Вопросы
+    </ion-tab-button>
+    <ion-tab-button tab="answers">
+      <ion-icon name="file-tray-full-outline"></ion-icon>
+      Ответы
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
