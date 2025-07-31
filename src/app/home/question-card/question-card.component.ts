@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Question } from '@common/interfaces';
 
 @Component({
@@ -10,6 +10,12 @@ import { Question } from '@common/interfaces';
 export class QuestionCardComponent {
 
   @Input() question!: Question;
+  @Input() answer!: string;
+  @Output() answerChange = new EventEmitter<string>();
 
   constructor() {}
+
+  onAnswerChange() {
+    this.answerChange.emit(this.answer);
+  }
 }

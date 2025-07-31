@@ -44,7 +44,11 @@
     @if (currentQuestionIndex === -1) {
       <app-first-question-card />
     } @else {
-      <app-question-card [question]="currentQuestion"/>
+      <app-question-card
+        [question]="currentQuestion"
+        (answerChange)="updateAnswer($event)"
+        [answer]="currentAnswer"
+      />
     }
 
     <ion-fab
@@ -60,7 +64,13 @@
       </ion-fab-button>
     </ion-fab>
 
-    <ion-fab slot="fixed" vertical="bottom" horizontal="start" (click)="prevQuestion()" [style]="currentQuestionIndex > -1 ? 'display: flex;' : 'display: none;'">
+    <ion-fab
+      slot="fixed"
+      vertical="bottom"
+      horizontal="start"
+      (click)="prevQuestion()"
+      [style]="currentQuestionIndex > -1 ? 'display: flex;' : 'display: none;'"
+    >
       <ion-fab-button>
         <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-fab-button>
