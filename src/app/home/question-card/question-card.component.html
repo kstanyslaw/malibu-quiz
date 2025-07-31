@@ -7,7 +7,11 @@
       @if (question.type === 'checkbox') {
         @for (option of question.options; let i = $index; track i) {
           <ion-item>
-            <ion-checkbox labelPlacement="start">{{ option }}</ion-checkbox>
+            <ion-checkbox
+              labelPlacement="start"
+              [checked]="selectedOptions.includes(option)"
+              (ionChange)="onCheckboxChange(option, $event.detail.checked)"
+            >{{ option }}</ion-checkbox>
           </ion-item>
         }
       } @else if (question.type === 'radio') {
