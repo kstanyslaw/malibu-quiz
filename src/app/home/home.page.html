@@ -43,8 +43,14 @@
   } @else {
     @if (currentQuestionIndex === -1) {
       <app-first-question-card />
+    } @else if(currentQuestionIndex < questions.length) {
+      <app-question-card
+        [question]="currentQuestion"
+        (answerChange)="updateAnswer($event)"
+        [initialAnswer]="currentAnswer"
+      />
     } @else {
-      <app-question-card [question]="currentQuestion"/>
+      <app-last-question-card></app-last-question-card>
     }
 
     <ion-fab
@@ -52,7 +58,7 @@
       vertical="bottom"
       horizontal="end"
       (click)="nextQuestion()"
-      [style]="currentQuestionIndex < questions.length-1 ? 'display: flex;' : 'display: none;'"
+      [style]="currentQuestionIndex < questions.length ? 'display: flex;' : 'display: none;'"
     >
       <ion-label>Следующий</ion-label>
       <ion-fab-button>
@@ -60,7 +66,13 @@
       </ion-fab-button>
     </ion-fab>
 
-    <ion-fab slot="fixed" vertical="bottom" horizontal="start" (click)="prevQuestion()" [style]="currentQuestionIndex > -1 ? 'display: flex;' : 'display: none;'">
+    <ion-fab
+      slot="fixed"
+      vertical="bottom"
+      horizontal="start"
+      (click)="prevQuestion()"
+      [style]="currentQuestionIndex > -1 ? 'display: flex;' : 'display: none;'"
+    >
       <ion-fab-button>
         <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-fab-button>

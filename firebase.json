@@ -29,7 +29,7 @@
   },
   "firestore": {
     "database": "(default)",
-    "location": "asia-east1",
+    "location": "europe-north1",
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   }

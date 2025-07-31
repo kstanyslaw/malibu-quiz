@@ -27,11 +27,18 @@
 }
 
 ion-fab {
+  background-color: var(--ion-background-color);
+  border-radius: 56px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
   flex-wrap: nowrap;
+
+  &[disabled] {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 
   ion-label {
     margin: 0 1rem;
