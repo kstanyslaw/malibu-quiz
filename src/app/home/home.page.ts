@@ -14,6 +14,7 @@ export class HomePage implements OnInit {
   questions!: Question[];
   currentQuestionIndex: number = -1;
   answers: string[] | string[][] = [];
+  quizFinished = false;
 
   constructor(
     private readonly questionService: QuestionService,
@@ -81,7 +82,7 @@ export class HomePage implements OnInit {
   }
 
   nextQuestion() {
-    if( this.currentQuestionIndex < this.questions.length + 1) {
+    if( this.currentQuestionIndex < this.questions.length) {
       this.currentQuestionIndex++;
     }
   }
@@ -102,5 +103,13 @@ export class HomePage implements OnInit {
 
   updateAnswer(value: string | string[]) {
     this.answers[this.currentQuestionIndex] = value;
+  }
+
+  sendAnswers() {
+    if( this.currentQuestionIndex < this.questions.length) {
+      this.currentQuestionIndex++;
+    }
+    this.quizFinished = true;
+    console.log(this.answers);
   }
 }
