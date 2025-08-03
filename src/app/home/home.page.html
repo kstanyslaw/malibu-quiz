@@ -48,7 +48,12 @@
     </div>
   } @else {
     @if (currentQuestionIndex === -1) {
-      <app-first-question-card />
+      <app-first-question-card
+        (nameChange)="updateName($event)"
+        (phoneChange)="updatePhone($event)"
+        [name]="name"
+        [phone]="phone"
+      />
     } @else if(currentQuestionIndex < questions.length) {
       <app-question-card
         [question]="currentQuestion"

@@ -15,6 +15,8 @@ export class HomePage implements OnInit {
   currentQuestionIndex: number = -1;
   answers: string[] | string[][] = [];
   quizFinished = false;
+  name: string = '';
+  phone: string = '';
 
   constructor(
     private readonly questionService: QuestionService,
@@ -48,7 +50,7 @@ export class HomePage implements OnInit {
         order: 2,
         createdAt: new Date(),
       },
-            {
+      {
         type: 'checkbox',
         title: 'Ваш любимый кофе, который вы бы хотели пить в нашем офисе?😊',
         id: 'xxxxxxxxx',
@@ -110,6 +112,15 @@ export class HomePage implements OnInit {
       this.currentQuestionIndex++;
     }
     this.quizFinished = true;
+    console.log(this.name, this.phone);
     console.log(this.answers);
+  }
+
+  updateName(value: string) {
+    this.name = value;
+  }
+
+  updatePhone(value: string) {
+    this.phone = value;
   }
 }
