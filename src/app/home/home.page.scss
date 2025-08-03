@@ -39,7 +39,7 @@ ion-fab {
   flex-direction: row;
   flex-wrap: nowrap;
 
-  &[disabled] {
+  &.disabled {
     pointer-events: none;
     opacity: 0.5;
   }
