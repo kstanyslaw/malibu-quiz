@@ -8,6 +8,7 @@ import { AnswersPageRoutingModule } from './answers-routing.module';
 
 import { AnswersPage } from './answers.page';
 import { HeaderComponent } from "../header/header.component";
+import { AnswerItemComponent } from '../answer-item/answer-item.component';
 
 @NgModule({
   imports: [
@@ -17,6 +18,9 @@ import { HeaderComponent } from "../header/header.component";
     AnswersPageRoutingModule,
     HeaderComponent
 ],
-  declarations: [AnswersPage]
+  declarations: [
+    AnswersPage,
+    AnswerItemComponent
+  ]
 })
 export class AnswersPageModule {}

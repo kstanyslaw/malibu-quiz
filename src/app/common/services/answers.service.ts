@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { addDoc, collection, CollectionReference, Firestore } from '@angular/fire/firestore';
-import { OneQuestionAnswer, PersonalInfo, Question, StoredAnswers, UserAnswers } from '@common/interfaces';
+import { addDoc, collection, collectionData, CollectionReference, Firestore } from '@angular/fire/firestore';
+import { PersonalInfo, Question, StoredAnswers, UserAnswers } from '@common/interfaces';
+import { map, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class AnswersService {
     const personalInfo: PersonalInfo = JSON.parse(localStorage.getItem('personalInfo') as string);
     const userAnswers: UserAnswers = {
       personalInfo: personalInfo,
+      createdAt: new Date(),
       results: questionIds.map(id => {
         const answerInString = localStorage.getItem(id);
         const answerObject: StoredAnswers = JSON.parse(answerInString as string);
@@ -28,6 +30,13 @@ export class AnswersService {
     };
     const newUserAnswers = await addDoc(this.collection, <UserAnswers> userAnswers);
     return newUserAnswers;
+  }
+
+  getUsersAnswers() {
+    return collectionData(this.collection, { idField: 'userResultId' }).pipe(
+      map(data => data as UserAnswers[]),
+      take(1)
+    )
   }
 
   saveAnswerLS(question: Question, answer: string | string[]) {
