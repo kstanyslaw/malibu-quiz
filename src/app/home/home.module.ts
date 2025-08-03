@@ -7,7 +7,6 @@ import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import { QuestionCardComponent } from './question-card/question-card.component';
 import { FirstQuestionCardComponent } from './first-question-card/first-question-card.component';
-import { LastQuestionCardComponent } from './last-question-card/last-question-card.component';
 
 
 @NgModule({
@@ -21,7 +20,6 @@ import { LastQuestionCardComponent } from './last-question-card/last-question-ca
     HomePage,
     QuestionCardComponent,
     FirstQuestionCardComponent,
-    LastQuestionCardComponent
   ]
 })
 export class HomePageModule {}
