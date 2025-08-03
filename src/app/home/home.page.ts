@@ -1,6 +1,7 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
 import { Question } from '@common/interfaces';
-import { QuestionService } from '@common/services';
+import { AnswersService, QuestionService } from '@common/services';
+import { AlertController } from '@ionic/angular';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -21,6 +22,8 @@ export class HomePage implements OnInit {
 
   constructor(
     private readonly questionService: QuestionService,
+    private readonly answersService: AnswersService,
+    private readonly alertController: AlertController,
   ) {}
 
   ngOnInit(): void {
@@ -81,6 +84,13 @@ export class HomePage implements OnInit {
   }
 
   nextQuestion() {
+    // store personal info to LS
+    if (this.currentQuestionIndex() === -1) {
+      this.answersService.savePersonalInfoLS(this.name(), this.phone());
+    } else {
+    // store user answer in LS
+      this.answersService.saveAnswerLS(this.currentQuestion(), this.currentAnswer);
+    }
     if (this.currentQuestionIndex() < this.questions().length - 1) {
       this.currentQuestionIndex.update(idx => idx + 1);
     }
@@ -138,17 +148,35 @@ export class HomePage implements OnInit {
     });
   }
 
-  sendAnswers() {
-    this.quizFinished.set(true);
-    console.log({
-      name: this.name(),
-      phone: this.phone(),
-      answers: this.answers()
-    });
+  async sendAnswers() {
+    const action = await this.presentAlert(
+      'Отправить ответы?',
+      'Вы можете их проверить и изменить, если хотите'
+    );
+    if (action === 'send') {
+      this.answersService.saveAnswerLS(this.currentQuestion(), this.currentAnswer);
+      this.quizFinished.set(true);
+      const questionIds = this.questions().map(q => q.id as string);
+      this.answersService.addUserAnswers(questionIds);
+    }
   }
 
   onPersonalInfoChange(values: {name: string, phone: string}) {
     this.name.set(values.name);
     this.phone.set(values.phone);
+  }
+
+  async presentAlert(header: string, message: string, subHeader?: string) {
+    const alert = await this.alertController.create({
+      header: header ?? 'Ошибка',
+      // subHeader: subHeader ?? '',
+      message: message,
+      buttons: [{text: 'Вернуться', role: 'cancel'}, {text: 'Отправить', role: 'send'}],
+    });
+
+    await alert.present();
+
+    const { role } = await alert.onWillDismiss();
+    return role;
   }
 }

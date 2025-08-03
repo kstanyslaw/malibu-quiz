@@ -98,6 +98,7 @@
       horizontal="end"
       (click)="sendAnswers()"
       [style]="currentQuestionIndex() === questions().length - 1 ? 'display: flex;' : 'display: none;'"
+      [ngClass]="{disabled: isNextButtonDisabled()}"
     >
     <ion-label>Отправить ответы</ion-label>
     <ion-fab-button color="success">
