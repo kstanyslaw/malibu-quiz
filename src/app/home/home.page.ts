@@ -27,56 +27,56 @@ export class HomePage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.isQuestionsListLoading.set(true);
-    // this.questionService.getQuestions().pipe(
-    //   finalize(() => this.isQuestionsListLoading.set(false))
-    // ).subscribe({
-    //   next: (questions) => {
-    //     this.questions.set(questions);
-    //     this.answers.set(new Array(questions.length).fill(''));
-    //   },
-    //     error: (err) => {
-    //       // this.presentAlert(err.header, err.message);
-    //      this.isQuestionsListLoading.set(false);
-    //     },
-    //   });
+    this.isQuestionsListLoading.set(true);
+    this.questionService.getQuestions().pipe(
+      finalize(() => this.isQuestionsListLoading.set(false))
+    ).subscribe({
+      next: (questions) => {
+        this.questions.set(questions);
+        this.answers.set(new Array(questions.length).fill(''));
+      },
+        error: (err) => {
+          // this.presentAlert(err.header, err.message);
+         this.isQuestionsListLoading.set(false);
+        },
+      });
 
     // Mock questions TO DELETE
-    this.questions.set([
-      {
-        type: 'text',
-        title: 'Free answer question?😊',
-        id: 'yyyyyyyyyy',
-        order: 2,
-        createdAt: new Date(),
-      },
-      {
-        type: 'checkbox',
-        title: 'Ваш любимый кофе, который вы бы хотели пить в нашем офисе?😊',
-        id: 'xxxxxxxxx',
-        order: 1,
-        options: [
-          'Американо',
-          'Эспрессо',
-          'Латте',
-          'Капучино'
-        ],
-        createdAt: new Date(),
-      },
-      {
-        type: 'radio',
-        title: 'Ваш любимый кофе, который вы бы хотели пить в нашем офисе?😊',
-        id: 'zzzzzzzzzzz',
-        order: 1,
-        options: [
-          'Американо',
-          'Эспрессо',
-          'Латте',
-          'Капучино'
-        ],
-        createdAt: new Date(),
-      },
-    ]);
+    // this.questions.set([
+    //   {
+    //     type: 'text',
+    //     title: 'Free answer question?😊',
+    //     id: 'yyyyyyyyyy',
+    //     order: 2,
+    //     createdAt: new Date(),
+    //   },
+    //   {
+    //     type: 'checkbox',
+    //     title: 'Ваш любимый кофе, который вы бы хотели пить в нашем офисе?😊',
+    //     id: 'xxxxxxxxx',
+    //     order: 1,
+    //     options: [
+    //       'Американо',
+    //       'Эспрессо',
+    //       'Латте',
+    //       'Капучино'
+    //     ],
+    //     createdAt: new Date(),
+    //   },
+    //   {
+    //     type: 'radio',
+    //     title: 'Ваш любимый кофе, который вы бы хотели пить в нашем офисе?😊',
+    //     id: 'zzzzzzzzzzz',
+    //     order: 1,
+    //     options: [
+    //       'Американо',
+    //       'Эспрессо',
+    //       'Латте',
+    //       'Капучино'
+    //     ],
+    //     createdAt: new Date(),
+    //   },
+    // ]);
   }
 
   get isQuestionsListEmpty(): boolean {
