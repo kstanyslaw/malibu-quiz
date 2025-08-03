@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, effect, EventEmitter, input, Input, OnInit, output, Output, signal } from '@angular/core';
 import { Question } from '@common/interfaces';
 
 @Component({
@@ -9,38 +9,40 @@ import { Question } from '@common/interfaces';
 })
 export class QuestionCardComponent {
 
-  @Input() question!: Question;
-  @Output() answerChange = new EventEmitter<string | string[]>();
-  @Input() set initialAnswer(value: string | string []) {
-    if (this.question.type === 'checkbox') {
-      this.selectedOptions = Array.isArray(value) ? [...value] : [];
-    } else {
-      this.answer = value.toString() || '';
-    }
+  question = input.required<Question>();
+  initialAnswer = input.required<string | string[]>();
+  answerChange = output<string | string[]>();
+
+  answer = signal<string>('');
+
+  selectedOptions = signal<string[]>([]);
+
+  constructor() {
+    effect(() => {
+      if (this.question().type === 'checkbox') {
+        const value = this.initialAnswer();
+        this.selectedOptions.set(Array.isArray(value) ? [...value] : []);
+      } else {
+        const value = this.initialAnswer();
+        this.answer.set(typeof value === 'string' ? value : '');
+      }
+    });
   }
 
-  answer: string = '';
-
-  selectedOptions: string[] = [];
-
-  constructor() {}
-
   onAnswerChange() {
-    this.answerChange.emit(this.answer);
+    this.answerChange.emit(this.answer());
   }
 
   onCheckboxChange(option: string, isChecked: boolean) {
-    if (isChecked) {
-      if (!this.selectedOptions.includes(option)) {
-        this.selectedOptions.push(option);
-      }
-    } else {
-      this.selectedOptions = this.selectedOptions.filter(item => item !== option);
-    }
-    this.answerChange.emit(this.selectedOptions);
+    this.selectedOptions.update(options =>
+      isChecked
+        ? [...options, option]
+        : options.filter(item => item !== option)
+    );
+    this.answerChange.emit(this.selectedOptions());
   }
 
   isOptionChecked(option: string): boolean {
-    return this.selectedOptions.includes(option);
+    return this.selectedOptions().includes(option);
   }
 }

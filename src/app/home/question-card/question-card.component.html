@@ -1,11 +1,11 @@
 <ion-card>
   <ion-card-header>
-    <ion-card-title>{{ question.title }}</ion-card-title>
+    <ion-card-title>{{ question().title }}</ion-card-title>
   </ion-card-header>
   <ion-card-content>
     <ion-list>
-      @if (question.type === 'checkbox') {
-        @for (option of question.options; let i = $index; track i) {
+      @if (question().type === 'checkbox') {
+        @for (option of question().options; let i = $index; track i) {
           <ion-item>
             <ion-checkbox
               labelPlacement="start"
@@ -14,12 +14,12 @@
             >{{ option }}</ion-checkbox>
           </ion-item>
         }
-      } @else if (question.type === 'radio') {
+      } @else if (question().type === 'radio') {
         <ion-radio-group
           [(ngModel)]="answer"
           (ionChange)="onAnswerChange()"
         >
-        @for (option of question.options; let i = $index; track i) {
+        @for (option of question().options; let i = $index; track i) {
           <ion-item>
             <ion-radio [value]="option" labelPlacement="start">{{ option }}</ion-radio>
           </ion-item>
