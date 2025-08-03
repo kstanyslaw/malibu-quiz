@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Question } from '@common/interfaces';
 import { QuestionService } from '@common/services';
 import { finalize } from 'rxjs';
@@ -10,39 +10,35 @@ import { finalize } from 'rxjs';
   standalone: false,
 })
 export class HomePage implements OnInit {
-  isQuestionsListLoading: boolean = false;
-  questions!: Question[];
-  currentQuestionIndex: number = -1;
-  answers: string[] | string[][] = [];
-  quizFinished = false;
-  name: string = '';
-  phone: string = '';
+  isQuestionsListLoading = signal(false);
+  questions = signal<Question[]>([]);
+  currentQuestionIndex = signal(-1);
+  answers = signal<(string | string[])[]>([]);
+  quizFinished = signal(false);
+  name = signal('');
+  phone = signal('');
 
   constructor(
     private readonly questionService: QuestionService,
   ) {}
 
   ngOnInit(): void {
-    // this.isQuestionsListLoading = true;
-    // this.questionService
-    //   .getQuestions()
-    //   .pipe(
-    //     finalize(() => {
-    //       this.isQuestionsListLoading = false;
-    //     })
-    //   )
-    //   .subscribe({
-    //     next: (questions: Question[]) => {
-    //       this.questions = questions;
-    //     },
+    // this.isQuestionsListLoading.set(true);
+    // this.questionService.getQuestions().pipe(
+    //   finalize(() => this.isQuestionsListLoading.set(false))
+    // ).subscribe({
+    //   next: (questions) => {
+    //     this.questions.set(questions);
+    //     this.answers.set(new Array(questions.length).fill(''));
+    //   },
     //     error: (err) => {
     //       // this.presentAlert(err.header, err.message);
-    //       this.isQuestionsListLoading = false;
+    //      this.isQuestionsListLoading.set(false);
     //     },
     //   });
 
     // Mock questions TO DELETE
-    this.questions = [
+    this.questions.set([
       {
         type: 'text',
         title: 'Free answer question?😊',
@@ -76,58 +72,62 @@ export class HomePage implements OnInit {
         ],
         createdAt: new Date(),
       },
-    ];
+    ]);
   }
 
   get isQuestionsListEmpty(): boolean {
-    return !this.questions || this.questions.length === 0;
+    return !this.questions() || this.questions().length === 0;
   }
 
   nextQuestion() {
-    if( this.currentQuestionIndex < this.questions.length) {
-      this.currentQuestionIndex++;
+    if (this.currentQuestionIndex() < this.questions().length - 1) {
+      this.currentQuestionIndex.update(idx => idx + 1);
     }
   }
 
   prevQuestion() {
-    if( this.currentQuestionIndex > -1) {
-      this.currentQuestionIndex--;
+    if (this.currentQuestionIndex() > -1) {
+      this.currentQuestionIndex.update(idx => idx - 1);
     }
   }
 
   get nextButtonDisabled() {
-    if(this.currentQuestionIndex === -1) {
-      return this.name === '' || this.phone === '';
+    if (this.currentQuestionIndex() === -1) {
+      return this.name() === '' || this.phone() === '';
     }
-    return this.currentAnswer === '';
+    return !this.currentAnswer;
   }
 
   get currentQuestion() {
-    return this.questions[this.currentQuestionIndex];
+    return this.questions()[this.currentQuestionIndex()];
   }
 
   get currentAnswer() {
-    return this.answers[this.currentQuestionIndex] ?? '';
+    return this.answers()[this.currentQuestionIndex()] ?? '';
   }
 
   updateAnswer(value: string | string[]) {
-    this.answers[this.currentQuestionIndex] = value;
+    this.answers.update(answers => {
+      const newAnswers = [...answers];
+      newAnswers[this.currentQuestionIndex()] = value;
+      return newAnswers;
+    });
   }
 
   sendAnswers() {
-    if( this.currentQuestionIndex < this.questions.length) {
-      this.currentQuestionIndex++;
-    }
-    this.quizFinished = true;
-    console.log(this.name, this.phone);
-    console.log(this.answers);
+    this.quizFinished.set(true);
+    console.log({
+      name: this.name(),
+      phone: this.phone(),
+      answers: this.answers()
+    });
   }
 
   updateName(value: string) {
-    this.name = value;
+    this.name.set(value);
   }
 
   updatePhone(value: string) {
-    this.phone = value;
+    this.phone.set(value);
   }
 }
