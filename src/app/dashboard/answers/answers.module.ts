@@ -7,14 +7,20 @@ import { IonicModule } from '@ionic/angular';
 import { AnswersPageRoutingModule } from './answers-routing.module';
 
 import { AnswersPage } from './answers.page';
+import { HeaderComponent } from "../header/header.component";
+import { AnswerItemComponent } from '../answer-item/answer-item.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AnswersPageRoutingModule
-  ],
-  declarations: [AnswersPage]
+    AnswersPageRoutingModule,
+    HeaderComponent
+],
+  declarations: [
+    AnswersPage,
+    AnswerItemComponent
+  ]
 })
 export class AnswersPageModule {}

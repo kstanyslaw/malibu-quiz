@@ -1,37 +1,39 @@
 <ion-card>
   <ion-card-header>
-    <ion-card-title>{{ question.title }}</ion-card-title>
+    <ion-card-title>{{ question().title }}</ion-card-title>
   </ion-card-header>
   <ion-card-content>
     <ion-list>
-      @if (question.type === 'checkbox') {
-        @for (option of question.options; let i = $index; track i) {
+      @if (question().type === 'checkbox') {
+        @for (option of question().options; let index = $index; track index) {
           <ion-item>
             <ion-checkbox
               labelPlacement="start"
               [checked]="isOptionChecked(option)"
-              (ionChange)="onCheckboxChange(option, $event.detail.checked)"
+              (ionChange)="onCheckboxChange(option, $event.target.checked)"
             >{{ option }}</ion-checkbox>
           </ion-item>
         }
-      } @else if (question.type === 'radio') {
+      }
+      @else if (question().type === 'radio') {
         <ion-radio-group
           [(ngModel)]="answer"
           (ionChange)="onAnswerChange()"
         >
-        @for (option of question.options; let i = $index; track i) {
-          <ion-item>
-            <ion-radio [value]="option" labelPlacement="start">{{ option }}</ion-radio>
-          </ion-item>
+          @for (option of question().options; let i = $index; track i) {
+            <ion-item>
+              <ion-radio [value]="option" labelPlacement="start">{{ option }}</ion-radio>
+            </ion-item>
           }
         </ion-radio-group>
-      } @else {
+      }
+      @else {
         <ion-item>
           <ion-textarea
             label="Ваш ответ:"
             labelPlacement="floating"
             [(ngModel)]="answer"
-            (ionChange)="onAnswerChange()"
+            (ionInput)="handleInput($event)"
           ></ion-textarea>
         </ion-item>
       }

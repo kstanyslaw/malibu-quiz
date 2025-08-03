@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Question } from '@common/interfaces';
-import { AuthService, QuestionService } from '@common/services';
+import { QuestionService } from '@common/services';
 import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 import { finalize, Subscription } from 'rxjs';
 import { AddQuestionModalComponent } from '../add-question-modal/add-question-modal.component';
@@ -21,7 +21,6 @@ export class QuestionsPage implements OnInit, OnDestroy {
   updating: boolean = false;
 
   constructor(
-    private readonly authService: AuthService,
     private modalCtrl: ModalController,
     private readonly questionService: QuestionService,
     private readonly alertController: AlertController,
@@ -46,10 +45,6 @@ export class QuestionsPage implements OnInit, OnDestroy {
           this.isLoading = false;
         },
       });
-  }
-
-  logout() {
-    this.authService.signOut();
   }
 
   handleReorder(event: any) {

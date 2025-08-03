@@ -9,14 +9,16 @@ import { QuestionsPageRoutingModule } from './questions-routing.module';
 import { QuestionsPage } from './questions.page';
 import { QuestionItemComponent } from '../question-item/question-item.component';
 import { AddQuestionModalComponent } from '../add-question-modal/add-question-modal.component';
+import { HeaderComponent } from "../header/header.component";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    QuestionsPageRoutingModule
-  ],
+    QuestionsPageRoutingModule,
+    HeaderComponent
+],
   declarations: [
     QuestionsPage,
     QuestionItemComponent,
