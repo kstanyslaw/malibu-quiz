@@ -4,18 +4,20 @@
     <ion-card-subtitle>Для более индивидуального подхода нам необходимо знать, кто отвечал на вопросы</ion-card-subtitle>
   </ion-card-header>
   <ion-card-content>
+    <form [formGroup]="form">
     <ion-list>
         <ion-item>
           <ion-icon slot="start" name="person" aria-hidden="true"></ion-icon>
-          <ion-input type="text" label="Ваше имя" labelPlacement="floating" placeholder="Имя Фамилия" [(ngModel)]="name" (ionChange)="onNameChange()">
+          <ion-input type="text" label="Ваше имя" labelPlacement="floating" placeholder="Имя Фамилия" formControlName="name">
           </ion-input>
         </ion-item>
 
         <ion-item>
           <ion-icon slot="start" name="call" aria-hidden="true"></ion-icon>
-          <ion-input type="tel" label="Телефон" labelPlacement="floating" placeholder="+998-(00)-000-0000" [(ngModel)]="phone" (ionChange)="onPhoneChange()">
+          <ion-input type="tel" label="Телефон" labelPlacement="floating" placeholder="+998-(00)-000-0000" formControlName="phone">
           </ion-input>
         </ion-item>
     </ion-list>
+    </form>
   </ion-card-content>
 </ion-card>

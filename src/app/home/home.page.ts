@@ -17,6 +17,7 @@ export class HomePage implements OnInit {
   quizFinished = signal(false);
   name = signal('');
   phone = signal('');
+  isFormValid = signal(false);
 
   constructor(
     private readonly questionService: QuestionService,
@@ -109,7 +110,7 @@ export class HomePage implements OnInit {
 
   isNextButtonDisabled = computed(() => {
     if (this.currentQuestionIndex() === -1) {
-      return this.name().trim() === '' || this.phone().trim() === '';
+      return !this.isFormValid();
     }
 
     const answer = this.answers()[this.currentQuestionIndex()];
@@ -146,11 +147,8 @@ export class HomePage implements OnInit {
     });
   }
 
-  updateName(value: string) {
-    this.name.set(value);
-  }
-
-  updatePhone(value: string) {
-    this.phone.set(value);
+  onPersonalInfoChange(values: {name: string, phone: string}) {
+    this.name.set(values.name);
+    this.phone.set(values.phone);
   }
 }
