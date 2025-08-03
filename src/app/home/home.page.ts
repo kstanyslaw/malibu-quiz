@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { Question } from '@common/interfaces';
 import { QuestionService } from '@common/services';
 import { finalize } from 'rxjs';
@@ -91,16 +91,39 @@ export class HomePage implements OnInit {
     }
   }
 
-  get nextButtonDisabled() {
-    if (this.currentQuestionIndex() === -1) {
-      return this.name() === '' || this.phone() === '';
-    }
-    return !this.currentAnswer;
-  }
+  isCurrentQuestionAnswered = computed(() => {
+    const currentAnswer = this.answers()[this.currentQuestionIndex()];
 
-  get currentQuestion() {
-    return this.questions()[this.currentQuestionIndex()];
-  }
+    if (!this.currentQuestion()) return false;
+
+    switch (this.currentQuestion().type) {
+      case 'checkbox':
+        return Array.isArray(currentAnswer) && currentAnswer.length > 0;
+      case 'radio':
+      case 'text':
+        return !!currentAnswer && currentAnswer.toString().trim().length > 0;
+      default:
+        return false;
+    }
+  });
+
+  isNextButtonDisabled = computed(() => {
+    if (this.currentQuestionIndex() === -1) {
+      return this.name().trim() === '' || this.phone().trim() === '';
+    }
+
+    const answer = this.answers()[this.currentQuestionIndex()];
+    return !answer ||
+      (typeof answer === 'string' && answer.trim() === '') ||
+      (Array.isArray(answer) && answer.length === 0);
+  });
+
+  currentQuestion = computed(() => {
+    const idx = this.currentQuestionIndex();
+    const q = this.questions()[idx];
+    if (!q) throw new Error('Question not found');
+    return q;
+  });
 
   get currentAnswer() {
     return this.answers()[this.currentQuestionIndex()] ?? '';

@@ -17,4 +17,8 @@ export class AnswersService {
     const newUserAnswers = await addDoc(this.collection, <UserAnswers> userAnswers);
     return newUserAnswers;
   }
+
+  saveToLS(key: string, value: any) {
+    localStorage.setItem(key, value);
+  }
 }

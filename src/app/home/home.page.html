@@ -56,7 +56,7 @@
       />
     } @else if(currentQuestionIndex() < questions().length) {
       <app-question-card
-        [question]="currentQuestion"
+        [question]="currentQuestion()"
         (answerChange)="updateAnswer($event)"
         [initialAnswer]="currentAnswer"
       />
@@ -69,6 +69,7 @@
       horizontal="end"
       (click)="nextQuestion()"
       [style]="currentQuestionIndex() < questions().length - 1 ? 'display: flex;' : 'display: none;'"
+      [ngClass]="{disabled: isNextButtonDisabled()}"
     >
       <ion-label>Следующий</ion-label>
       <ion-fab-button>
