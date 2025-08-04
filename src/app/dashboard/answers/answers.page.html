@@ -1,0 +1,35 @@
+<app-header [headerTitle]="'Ответы'" />
+
+<ion-content [fullscreen]="true">
+ @if (isLoading) {
+      <ion-list>
+        <ion-item>
+          <ion-label>
+            <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item>
+          <ion-label>
+            <ion-skeleton-text [animated]="true" style="width: 70%;"></ion-skeleton-text>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item>
+          <ion-label>
+            <ion-skeleton-text [animated]="true" style="width: 90%;"></ion-skeleton-text>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    } @else if(answers.length === 0 ) {
+      <p slot="middle">Еще никто не прошел опрос</p>
+    } @else {
+      <ion-accordion-group>
+      @for (answer of answers; track answer.userResultId) {
+        <app-answer-item [answer]="answer" />
+      }
+      </ion-accordion-group>
+    }
+</ion-content>

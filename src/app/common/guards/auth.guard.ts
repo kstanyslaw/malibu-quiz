@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '@common/services';
 import { map, take } from 'rxjs';
 
 export const AuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
@@ -12,7 +12,10 @@ export const AuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: R
       if (user) {
         return true;
       } else {
-        router.navigate(['/login']);
+        router.navigate(['/login'], {
+          replaceUrl: true,
+          queryParams: { returnURL: state.url }
+        });
         return false;
       }
     })

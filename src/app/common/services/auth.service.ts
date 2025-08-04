@@ -7,7 +7,7 @@ import {
   authState,
   User
 } from '@angular/fire/auth';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -17,7 +17,8 @@ export class AuthService {
 
   constructor(
     private readonly afAuth: Auth,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
   ) {
     afAuth = getAuth();
   }
@@ -25,7 +26,8 @@ export class AuthService {
   async login(email: string, password: string): Promise<UserCredential> {
     try {
       const userCredential = await signInWithEmailAndPassword(this.afAuth, email, password);
-      this.router.navigate(['/dashboard']);
+      const returnUrl = this.activatedRoute.snapshot.queryParams['returnURL'] || '/dashboard';
+      await this.router.navigateByUrl(returnUrl, { replaceUrl: true });
       return userCredential
     } catch (error) {
       throw error;

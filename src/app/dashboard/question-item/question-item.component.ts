@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IonItemSliding } from '@ionic/angular';
-import { Question } from 'src/app/interfaces/question';
+import { Question } from 'src/app/common/interfaces/question';
 
 @Component({
   selector: 'app-question-item',

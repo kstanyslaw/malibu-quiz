@@ -1,0 +1,25 @@
+<ion-accordion value="first">
+    <ion-item slot="header" color="light">
+      <ion-avatar aria-hidden="true" slot="start">
+        <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      </ion-avatar>
+      <ion-label>
+        <p color="medium">{{answer.createdAt}}</p>
+        <strong>{{answer.personalInfo.name}}</strong>
+        <h4>{{answer.personalInfo.phone}}</h4>
+      </ion-label>
+    </ion-item>
+    <div class="ion-padding" slot="content">
+      <ion-list>
+        @for (questionAnswer of answer.results; track questionAnswer.questionId) {
+          <ion-item>
+            <ion-icon name="help-circle-outline" slot="start"></ion-icon>
+            <p>{{questionAnswer.questionTitle}}</p>
+          </ion-item>
+          <ion-item>
+            <h4>{{questionAnswer.answer.toString()}}</h4>
+          </ion-item>
+        }
+      </ion-list>
+    </div>
+  </ion-accordion>

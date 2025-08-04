@@ -1,4 +1,10 @@
 {
+  "firestore": {
+    "database": "(default)",
+    "location": "europe-north1",
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
   "apphosting": {
     "backendId": "malibu-backend",
     "rootDir": "/",
@@ -23,14 +29,5 @@
         "destination": "/index.html"
       }
     ]
-  },
-  "database": {
-    "rules": "database.rules.json"
-  },
-  "firestore": {
-    "database": "(default)",
-    "location": "asia-east1",
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
   }
 }
