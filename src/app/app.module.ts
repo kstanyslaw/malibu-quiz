@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
-import { getDatabase, provideDatabase } from '@angular/fire/database';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 @NgModule({
@@ -23,16 +22,16 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
       useClass: IonicRouteStrategy
     },
     provideFirebaseApp(() => initializeApp({
-      projectId: "malibu-quiz",
-      appId: "1:907083750415:web:2a6153ca3a6f9293c2977a",
-      storageBucket: "malibu-quiz.firebasestorage.app",
       apiKey: "AIzaSyDDovdZzVlQqH-I3_7hmwgO3T5sy-sKL-U",
       authDomain: "malibu-quiz.firebaseapp.com",
+      databaseURL: "https://malibu-quiz-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "malibu-quiz",
+      storageBucket: "malibu-quiz.firebasestorage.app",
       messagingSenderId: "907083750415",
-      measurementId: "G-074TP22X2M"
+      appId: "1:907083750415:web:84c925badbc6fe66c2977a",
+      measurementId: "G-9W03XCWP72"
     })),
     provideAuth(() => getAuth()),
-    provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
   ],
   bootstrap: [AppComponent],
