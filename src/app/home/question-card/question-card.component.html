@@ -11,7 +11,7 @@
               labelPlacement="start"
               [checked]="isOptionChecked(option)"
               (ionChange)="onCheckboxChange(option, $event.target.checked)"
-            >{{ option }}</ion-checkbox>
+            ><ion-text class="t-wrap">{{ option }}</ion-text></ion-checkbox>
           </ion-item>
         }
       }
@@ -22,7 +22,7 @@
         >
           @for (option of question().options; let i = $index; track i) {
             <ion-item>
-              <ion-radio [value]="option" labelPlacement="start">{{ option }}</ion-radio>
+              <ion-radio [value]="option" labelPlacement="start" ><ion-text class="t-wrap">{{ option }}</ion-text></ion-radio>
             </ion-item>
           }
         </ion-radio-group>
