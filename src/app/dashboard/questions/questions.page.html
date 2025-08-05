@@ -1,10 +1,7 @@
 <app-header [headerTitle]="'Вопросы'"/>
 
 <ion-content [fullscreen]="true">
-  <ion-list>
-  <!-- The reorder gesture is disabled by default, enable it to drag and drop items -->
-  <!-- Casting $event to $any is a temporary fix for this bug https://github.com/ionic-team/ionic-framework/issues/24245 -->
-  <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
+
 
     @if (isLoading) {
       <ion-list>
@@ -32,27 +29,33 @@
         </ion-item>
       </ion-list>
     } @else if(questions.length === 0 ) {
-      <p slot="middle">Вопросы пока что не добавлены</p>
+      <div id="container">
+        <strong>Список вопросов пуст</strong>
+        <p>Может, пора добавить несколько?😉</p>
+        <p>Это можно сделать с помощью кнопки <ion-icon name="add-circle-outline" id="add-fab"></ion-icon></p>
+      </div>
     } @else {
-      <ion-item>
-        <ion-label> Персональные данные </ion-label>
-        <ion-icon slot="start" name="person-outline"></ion-icon>
-      </ion-item>
-      @for (question of questions; track question.id) {
-        <app-question-item
-          [title]="question.title"
-          [id]="question.id || ''"
-          [type]="question.type"
-          [question]="question"
-          (deleted)="onQuestionDeleted($event)"
-          (editing)="onQuestionUpdated($event)"
-        />
-      }
+      <ion-list>
+      <!-- The reorder gesture is disabled by default, enable it to drag and drop items -->
+      <!-- Casting $event to $any is a temporary fix for this bug https://github.com/ionic-team/ionic-framework/issues/24245 -->
+      <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
+        <ion-item>
+          <ion-label> Персональные данные </ion-label>
+          <ion-icon slot="start" name="person-outline"></ion-icon>
+        </ion-item>
+        @for (question of questions; track question.id) {
+          <app-question-item
+            [title]="question.title"
+            [id]="question.id || ''"
+            [type]="question.type"
+            [question]="question"
+            (deleted)="onQuestionDeleted($event)"
+            (editing)="onQuestionUpdated($event)"
+          />
+        }
+      </ion-reorder-group>
+      </ion-list>
     }
-
-  </ion-reorder-group>
-  </ion-list>
-
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button>

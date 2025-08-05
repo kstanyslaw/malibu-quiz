@@ -24,7 +24,10 @@
         </ion-item>
       </ion-list>
     } @else if(answers.length === 0 ) {
-      <p slot="middle">Еще никто не прошел опрос</p>
+      <div id="container">
+        <strong>Ответов пока нет</strong>
+        <p>Еще ни один человек не прошёл опрос</p>
+      </div>
     } @else {
       <ion-accordion-group>
       @for (answer of answers; track answer.userResultId) {
