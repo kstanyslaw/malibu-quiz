@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Question } from '@common/interfaces';
 import { QuestionService } from '@common/services';
-import { AlertController, LoadingController, ModalController } from '@ionic/angular';
+import { ActionSheetController, AlertController, LoadingController, ModalController } from '@ionic/angular';
 import { finalize, Subscription } from 'rxjs';
 import { AddQuestionModalComponent } from '../add-question-modal/add-question-modal.component';
 
@@ -25,6 +25,7 @@ export class QuestionsPage implements OnInit, OnDestroy {
     private readonly questionService: QuestionService,
     private readonly alertController: AlertController,
     private readonly loadingCtrl: LoadingController,
+    private actionSheetCtrl: ActionSheetController
   ) { }
 
   ngOnInit() {
@@ -68,12 +69,13 @@ export class QuestionsPage implements OnInit, OnDestroy {
 
     const modal = await this.modalCtrl.create({
       component: AddQuestionModalComponent,
+      canDismiss: this.modalOnDismiss.bind(this),
       componentProps: {
         questionType: newQuestionType,
         mode: mode,
         questionTitle: question?.title,
         questionId: question?.id,
-        options: question?.options ?? ['', '']
+        options: question?.options ?? ['', ''],
       }
     });
     modal.present();
@@ -100,6 +102,28 @@ export class QuestionsPage implements OnInit, OnDestroy {
       });
       this.hideLoading(loading);
     }
+  }
+
+  async modalOnDismiss() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Вы уверены что хотите выйти?',
+      buttons: [
+        {
+          text: 'Да',
+          role: 'confirm',
+        },
+        {
+          text: 'Нет',
+          role: 'cancel',
+        },
+      ],
+    });
+
+    actionSheet.present();
+
+    const { role } = await actionSheet.onWillDismiss();
+
+    return role === 'confirm';
   }
 
   ngOnDestroy() {

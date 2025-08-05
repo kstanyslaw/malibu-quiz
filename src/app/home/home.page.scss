@@ -43,6 +43,7 @@ ion-fab {
   align-items: center;
   flex-direction: row;
   flex-wrap: nowrap;
+  margin-bottom: var(--ion-safe-area-bottom, 0);
 
   &.disabled {
     pointer-events: none;
